@@ -4,7 +4,7 @@
 
 ## Ccылка на проект
 
-https://vladimirskrebets.github.io/mesto-react/
+----------------------------
 
 ## Описание
 
