@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -24,7 +24,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     Promise.all([api.getUserInfo(), api.getDownloadedCards()])
       .then(([userData, cards]) => {
         setCurrentUser(userData);
@@ -116,14 +116,17 @@ function App() {
       });
   }
 
-	function handleAddPlaceSubmit(newCard) {
-		api.addNewCard(newCard)
-			.then((newCard) => {
-				setCards([newCard, ...cards]);
-				closeAllPopups();
-			})
-			.catch((err) => { console.log(err) })
-	}
+  function handleAddPlaceSubmit(newCard) {
+    api
+      .addNewCard(newCard)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -152,11 +155,11 @@ function App() {
             onUpdateAvatar={handleUpdateAvatar}
           />
 
-					<AddPlacePopup
+          <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}
-					/>
+          />
 
           <DeleteCardPopup
             isOpen={isDeleteCardPopupOpen}
